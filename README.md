@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -7,7 +5,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:8000](http://localhost:8000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
@@ -17,52 +15,64 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# Coding Challenge
+================
+The challenge is to create a search autocomplete input backed by the Plugify API.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Users should be able to start typing in the input, and the input should start showing them suggestions as provided by the API.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+You can find a similar implementation on [Plugify's homepage](https://www.plugify.nl) .
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Rules
+1. It must be well tested, please include a README.md in your repo explaining how to run the tests.
+2. The app must be versioned using git, git history should be meaningful.
+3. Please state your reasoning for adding any external code libraries.
 
-### `npm run eject`
+## API Docs
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+API CORS accepts connections from localhost:8000, that should be the URL to set your app to.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Autocomplete API
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Base URL: https://api.earlytestabc.plugify.nl/autocomplete.json
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+You need to provide the param "query" with a string value, the API will reply with a mix of objects, you can know what kind of object it is from the _type field
 
-## Learn More
+You can see it in action here:
+https://api.earlytestabc.plugify.nl/autocomplete.json?query=amst
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Object Types:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Below are the most important attributes on different types, there are more that are sent back, be as creative in your display of the results as much you like.
 
-### Code Splitting
+##### City:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+|Attribute|Value|
+|---|---|
+|_type|city|
+|name|Siddeburen|
+|province|Groningen|
 
-### Analyzing the Bundle Size
+##### Autocomplete Value:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+The value field can have any of two keys, the values are in dutch:
+- occasion: Wedding, Birthday, etc.. (In dutch)
+- artist_group: Dj, bands etc..
 
-### Making a Progressive Web App
+|Attribute|Value|
+|---|---|
+|_type|"autocomplete_value"|
+|category|"artist_group_occasion"|
+|id| 60|
+|name|"Huiskamerconcert Duo Trio"|
+|value| \{ occasion: "huiskamerconcert", artist_group: "duo-trio" \} |
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+##### Artist
 
-### Advanced Configuration
+Artist objects have a lot of data, listed below are the most important ones:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+|Attribute|Value|
+|---|---|
+|_type|"artist"|
+|main_category|bands|
+|name|Madonna|

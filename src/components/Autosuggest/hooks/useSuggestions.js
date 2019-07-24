@@ -10,8 +10,8 @@ const groupSuggests = suggests => suggests.reduce(
     ...groupedSuggs,
     [type]: (
       groupedSuggs[type]
-        ? [...groupedSuggs[type], suggestionData]
-        : [suggestionData]
+        ? [...groupedSuggs[type], { ...suggestionData, type }]
+        : [{ ...suggestionData, type }]
     ),
   }),
   {},
@@ -30,8 +30,8 @@ const reducer = (state, action) => {
 };
 
 
-const useSuggestions = () => {
-  const [suggestions, dispatch] = useReducer(reducer, {});
+const useSuggestions = (defaultSuggestions = {}) => {
+  const [suggestions, dispatch] = useReducer(reducer, defaultSuggestions);
 
   const setSuggestions = suggests => dispatch({
     type: SET_SUGGESTIONS,

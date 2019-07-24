@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.locationIcon, .musicIcon, .personIcon {
+  height: 24px;
+  width: 24px;
+  margin-right: 4px;
+}
+
+
+.locationIcon {
+  background-image: url('./icons/location.svg');
+}
+
+.musicIcon {
+  background-image: url('./icons/music.svg');
+}
+
+.personIcon {
+  background-image: url('./icons/person.svg');
+}

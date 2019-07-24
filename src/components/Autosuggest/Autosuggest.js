@@ -1,13 +1,18 @@
 import React, { useState, useRef } from 'react';
 import AutosuggestBase from 'react-autosuggest';
 import debounce from 'lodash/debounce';
+import stubFalse from 'lodash/stubFalse';
+
+import Suggestion from './components/Suggestion';
 
 import useSuggestions from './hooks/useSuggestions';
 
-import { transformObjToArray } from './Autosuggest.lib';
+import { maybeTransformToArray } from './Autosuggest.lib';
+
+import styles from './Autosuggest.module.css';
 
 const Autosuggest = () => {
-  const { suggestions, updateSuggestions, clearSuggestions } = useSuggestions();
+  const { suggestions, updateSuggestions } = useSuggestions();
   const updateSuggestionsDebounced = useRef(debounce(updateSuggestions, 500)).current;
 
 
@@ -15,20 +20,20 @@ const Autosuggest = () => {
 
 
   const inputProps = {
-    placeholder: 'Wat zoek je?',
+    placeholder: 'Search here',
     value: inputVal,
     onChange: (_e, { newValue }) => setInputVal(newValue),
   };
 
   const renderSectionTitle = suggestion => (
-    <div>
+    <h3>
       {suggestion.group}
-    </div>
+    </h3>
   );
 
   const getSectionSuggestions = ({ items }) => items;
 
-  const renderSuggestion = sugg => <div>{sugg.name}</div>;
+  const renderSuggestion = suggestion => <Suggestion suggestion={suggestion} />;
 
   const getSuggestionValue = ({ name }) => name;
 
@@ -37,17 +42,18 @@ const Autosuggest = () => {
   );
 
   return (
-    <div>
+    <div className={styles.root}>
       <AutosuggestBase
         multiSection
-        suggestions={transformObjToArray(suggestions)}
+        suggestions={maybeTransformToArray(suggestions)}
         onSuggestionsFetchRequested={handleFetchRequested}
-        onSuggestionsClearRequested={clearSuggestions}
+        onSuggestionsClearRequested={stubFalse}
         getSuggestionValue={getSuggestionValue}
         renderSectionTitle={renderSectionTitle}
         getSectionSuggestions={getSectionSuggestions}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
+        theme={styles}
       />
     </div>
   );

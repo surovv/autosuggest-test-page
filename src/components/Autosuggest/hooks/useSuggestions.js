@@ -42,8 +42,13 @@ const useSuggestions = (defaultSuggestions = {}) => {
 
   const updateSuggestions = query => (
     validateQuery(query)
-      ? fetchSuggestions(query).then(suggs => setSuggestions(groupSuggests(suggs)))
-      : clearSuggestions()
+      ? (
+        fetchSuggestions(query)
+          .then(suggs => setSuggestions(groupSuggests(suggs)))
+          .catch(err => console.log(err))
+      ) : (
+        clearSuggestions()
+      )
   );
 
   return { suggestions, updateSuggestions, clearSuggestions };
